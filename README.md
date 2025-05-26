@@ -3,6 +3,8 @@
 
 A comprehensive educational module that teaches construction professionals how to leverage AI tools for trade mathematics, blueprint design, and 3D visualization workflows.
 
+https://mojomoon.github.io/ai_trade_math/index.html
+
 ## 📋 Overview
 
 This interactive lesson transforms traditional trade education by demonstrating practical AI applications in construction and design. Students learn essential mathematical concepts while experiencing cutting-edge tools that are reshaping the industry.
