@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Trade Math + 3D Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f1eb 0%, #e8e0d6 50%, #d4c4b0 100%);
+            color: #2d2d2d;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .course-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .course-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(186, 85, 85, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #b8860b;
+            text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+        }
+
+        .course-subtitle {
+            font-size: 1.2em;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .instructor-info {
+            background: rgba(186, 85, 85, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid rgba(186, 85, 85, 0.2);
+            color: #4b5563;
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #ba5555, #a04848);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(186, 85, 85, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(186, 85, 85, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #b8860b, #a0750a);
+            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
+        }
+
+        .lesson-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(184, 134, 11, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: #b8860b;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(184, 134, 11, 0.2);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #ba5555;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(186, 85, 85, 0.15);
+        }
+
+        .content-card h3 {
+            color: #b8860b;
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(186, 85, 85, 0.1), rgba(160, 72, 72, 0.1));
+            border: 2px solid rgba(186, 85, 85, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-highlight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(184, 134, 11, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(186, 85, 85, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-question {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #b8860b;
+            font-weight: bold;
+        }
+
+        .quiz-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ba5555;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2d2d2d;
+            font-size: 16px;
+        }
+
+        .quiz-input::placeholder {
+            color: rgba(45, 45, 45, 0.6);
+        }
+
+        .check-answer-btn, .demo-button {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .check-answer-btn:hover, .demo-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #2563eb, #3b82f6);
+        }
+
+        .answer-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .correct {
+            background: rgba(46, 204, 113, 0.3);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .incorrect {
+            background: rgba(231, 76, 60, 0.3);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        .interactive-demo {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, #4a90e2, #87ceeb);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ba5555, #b8860b);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .workflow-step {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .workflow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #3b82f6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .ai-tool-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(186, 85, 85, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-tool-card h4 {
+            color: #b8860b;
+            margin-bottom: 10px;
+        }
+
+        .mock-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #333, #555);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-style: italic;
+            margin: 15px 0;
+        }
+
+        .blueprint-container {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .blueprint-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            max-width: 400px;
+            margin: 20px auto;
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .room {
+            background: white;
+            padding: 15px 5px;
+            text-align: center;
+            font-size: 0.8em;
+            border: 1px solid #ccc;
+        }
+
+        .exit-ticket {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .exit-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2d2d2d;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        @media (max-width: 768px) {
+            .course-header h1 {
+                font-size: 2em;
+            }
+            
+            .lesson-nav {
+                gap: 8px;
+            }
+            
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="course-container">
+        <div class="course-header">
+            <h1>🔧 AI for Trade Math + 3D Design</h1>
+            <div class="course-subtitle">Self-Paced Learning: Using AI for Construction & Design</div>
+            <div class="instructor-info">
+                <strong>🧠 G-Data Labs</strong> | <strong>📍 GABTA Student Session 3</strong><br>
+                Instructor: Morgan Jones | Empowering Trade Professionals with AI
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 16%"></div>
+            </div>
+        </div>
+
+        <div class="lesson-nav">
+            <button class="nav-btn active" onclick="showSection('overview')">📋 Overview</button>
+            <button class="nav-btn" onclick="showSection('refresher')">🔄 AI Refresher</button>
+            <button class="nav-btn" onclick="showSection('math-quiz')">🧮 Trade Math Quiz</button>
+            <button class="nav-btn" onclick="showSection('blueprint')">📐 AI Blueprint Design</button>
+            <button class="nav-btn" onclick="showSection('3d-mockups')">🏠 3D Mockups & Video</button>
+            <button class="nav-btn" onclick="showSection('assessment')">✅ Exit Ticket</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="lesson-section active">
+            <h2 class="section-title">📋 Course Overview</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 Learning Journey</h3>
+                <p>Today we'll transform trade math calculations into complete 3D home designs using AI tools. You'll experience the full workflow from mathematical foundations to professional visualizations.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>🧮 Trade Math Foundation</h3>
+                    <p>Practice essential construction calculations including:</p>
+                    <ul>
+                        <li>Fraction to decimal conversions</li>
+                        <li>ADA-compliant ramp calculations</li>
+                        <li>Material quantity estimations</li>
+                        <li>Spacing and layout planning</li>
+                        <li>Space allocation strategies</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>🤖 AI-Powered Design</h3>
+                    <p>Learn to use AI for rapid prototyping:</p>
+                    <ul>
+                        <li>Blueprint generation from specifications</li>
+                        <li>Photorealistic architectural renderings</li>
+                        <li>Interactive 3D walkthroughs</li>
+                        <li>Marketing materials creation</li>
+                        <li>Quality control and error checking</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔧 Professional Workflow</h3>
+                    <p>Develop industry-ready skills:</p>
+                    <ul>
+                        <li>Math ➜ Blueprint ➜ Assets pipeline</li>
+                        <li>Cross-verification techniques</li>
+                        <li>Client presentation materials</li>
+                        <li>Digital portfolio development</li>
+                        <li>Time-efficient design iteration</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>⚠️ Critical Thinking</h3>
+                    <p>Essential verification skills:</p>
+                    <ul>
+                        <li>Identifying AI hallucinations</li>
+                        <li>Rule of Two Checks methodology</li>
+                        <li>Measurement verification</li>
+                        <li>Code compliance checking</li>
+                        <li>Quality assurance protocols</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ai-highlight highlight-box">
+                <h3>🚀 Why This Matters</h3>
+                <p>The construction industry is rapidly adopting AI tools for design, estimation, and project management. By mastering these technologies early, you'll have a competitive advantage in modern construction careers.</p>
+            </div>
+        </div>
+
+        <!-- AI Refresher Section -->
+        <div id="refresher" class="lesson-section">
+            <h2 class="section-title">🔄 AI Tools Refresher</h2>
+            
+            <div class="content-grid">
+                <div class="ai-tool-card">
+                    <h4>💬 ChatGPT</h4>
+                    <p><strong>Role:</strong> Generative multitool</p>
+                    <p><strong>Best for:</strong></p>
+                    <ul>
+                        <li>Trade-math explanations</li>
+                        <li>Quick prompts and iterations</li>
+                        <li>Crisp text drafts</li>
+                        <li>Step-by-step problem solving</li>
+                    </ul>
+                </div>
+
+                <div class="ai-tool-card">
+                    <h4>🧠 Claude</h4>
+                    <p><strong>Role:</strong> Deep-reasoning planner</p>
+                    <p><strong>Best for:</strong></p>
+                    <ul>
+                        <li>Converting specs into task lists</li>
+                        <li>Detailed safety guides</li>
+                        <li>Complex project planning</li>
+                        <li>Comprehensive documentation</li>
+                    </ul>
+                </div>
+
+                <div class="ai-tool-card">
+                    <h4>📊 Gemini (Workspace Labs)</h4>
+                    <p><strong>Role:</strong> Spreadsheet sidekick</p>
+                    <p><strong>Best for:</strong></p>
+                    <ul>
+                        <li>Building formulas and dashboards</li>
+                        <li>Instant summaries in Google Sheets</li>
+                        <li>Data analysis and visualization</li>
+                        <li>Cost estimation spreadsheets</li>
+                    </ul>
+                </div>
+
+                <div class="ai-tool-card">
+                    <h4>🎥 RunwayML</h4>
+                    <p><strong>Role:</strong> Video generation</p>
+                    <p><strong>Best for:</strong></p>
+                    <ul>
+                        <li>Architectural fly-throughs</li>
+                        <li>Client presentation videos</li>
+                        <li>Marketing materials</li>
+                        <li>Design process documentation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>⚠️ Golden Rule: Cross-Check Everything</h3>
+                <p><strong>Different models, same rule:</strong> Cross-check every output for accuracy and safety before implementing on the job site. AI is a powerful assistant, but human expertise and verification remain essential.</p>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎯 AI Tool Selection Practice</h3>
+                <p>Choose the best AI tool for each scenario:</p>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showToolRecommendation('math-explanation')">Math Problem Help</button>
+                    <button class="demo-button" onclick="showToolRecommendation('project-planning')">Project Planning</button>
+                    <button class="demo-button" onclick="showToolRecommendation('cost-analysis')">Cost Analysis</button>
+                    <button class="demo-button" onclick="showToolRecommendation('client-video')">Client Presentation</button>
+                </div>
+                <div id="toolRecommendation" style="margin: 15px 0; padding: 15px; background: rgba(74, 144, 226, 0.2); border-radius: 8px; display: none;">
+                    <p id="recommendationText"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trade Math Quiz Section -->
+        <div id="math-quiz" class="lesson-section">
+            <h2 class="section-title">🧮 Trade Math Challenge</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 Instructions</h3>
+                <p>Complete these trade math problems. We'll use your answers to create a house blueprint with AI! Try solving them first, then use the "Check with AI" buttons to verify your work.</p>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">1. Convert 7⅜ inches to decimal inches</div>
+                <input type="text" class="quiz-input" id="q1" placeholder="Enter your answer (e.g., 7.375)">
+                <button class="check-answer-btn" onclick="checkAnswer(1, '7.375')">Check with AI</button>
+                <div id="result1" class="answer-result" style="display: none;"></div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">2. A ramp rises 28 inches. What run is required for a 1:12 slope?</div>
+                <input type="text" class="quiz-input" id="q2" placeholder="Enter your answer in feet or inches">
+                <button class="check-answer-btn" onclick="checkAnswer(2, ['336', '28 ft', '28', '336 in'])">Check with AI</button>
+                <div id="result2" class="answer-result" style="display: none;"></div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">3. You need 4'×8' drywall sheets for a 32'×24' wall. How many full sheets?</div>
+                <input type="text" class="quiz-input" id="q3" placeholder="Enter number of sheets">
+                <button class="check-answer-btn" onclick="checkAnswer(3, '24')">Check with AI</button>
+                <div id="result3" class="answer-result" style="display: none;"></div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">4. On a 32 ft wall with six 3 ft-wide windows, what is the center-to-center spacing (in inches)?</div>
+                <input type="text" class="quiz-input" id="q4" placeholder="Enter spacing in inches">
+                <button class="check-answer-btn" onclick="checkAnswer(4, ['64', '64 in'])">Check with AI</button>
+                <div id="result4" class="answer-result" style="display: none;"></div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">5. A home is 1,500 sq ft with 3 bedrooms and 2 baths. Propose one feasible area allocation:</div>
+                <textarea class="quiz-input" id="q5" placeholder="Example: Bedroom 1: 200 sq ft, Bedroom 2: 150 sq ft, Bedroom 3: 150 sq ft, Bath 1: 80 sq ft, Bath 2: 70 sq ft, Other spaces: 850 sq ft" rows="4"></textarea>
+                <button class="check-answer-btn" onclick="checkAnswer(5, 'any')">Check Allocation</button>
+                <div id="result5" class="answer-result" style="display: none;"></div>
+            </div>
+
+            <div class="ai-highlight highlight-box">
+                <h3>🤖 AI Verification Process</h3>
+                <p>Notice how AI helps verify calculations and catch errors. In real construction work, this double-checking prevents costly mistakes. The AI shows step-by-step reasoning, helping you understand the process.</p>
+            </div>
+        </div>
+
+        <!-- Blueprint Design Section -->
+        <div id="blueprint" class="lesson-section">
+            <h2 class="section-title">📐 AI Blueprint Design</h2>
+            
+            <div class="workflow-step" data-step="Step 1">
+                <h3>🎯 Design Brief to AI</h3>
+                <p>Using our math answers from the quiz, we'll prompt AI to create a house blueprint. Here's how we structure the prompt:</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 15px 0; font-family: monospace;">
+                    "Create a house blueprint for a 1,500 sq ft home with 3 bedrooms and 2 baths. Use these room allocations: [Your answers from Question 5]. The house should be 50ft × 30ft overall. Include accessibility features with a 1:12 ramp. Show room dimensions and layout."
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="Step 2">
+                <h3>⚠️ Spot the Hallucination!</h3>
+                <p>AI often makes mathematical errors. Look at this first attempt:</p>
+                <div class="blueprint-container">
+                    <h4>❌ First Blueprint (Contains Errors)</h4>
+                    <div class="mock-image">Blueprint with dimension errors - walls don't add up!</div>
+                    <p><strong>Problem:</strong> The wall dimensions don't match our 50ft × 30ft requirement. Always verify measurements!</p>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="Step 3">
+                <h3>✅ Corrected Blueprint</h3>
+                <p>After catching the error and providing feedback:</p>
+                <div class="blueprint-container">
+                    <h4>✅ Corrected Blueprint</h4>
+                    <div class="blueprint-grid">
+                        <div class="room">Kitchen<br>15×12</div>
+                        <div class="room">Bedroom 2<br>13×15</div>
+                        <div class="room">Bath<br>6×8</div>
+                        <div class="room">Bath<br>6×8</div>
+                        <div class="room">Living/Dining<br>15×27</div>
+                        <div class="room">Bedroom 1<br>13×15</div>
+                        <div class="room">Bedroom 3<br>13×15</div>
+                        <div class="room" style="background: #e8f4f8;">Hall</div>
+                    </div>
+                    <p><strong>Dimensions:</strong> 50ft × 30ft ✓</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🔍 Rule of Two Checks</h3>
+                <p><strong>Always verify AI output:</strong> Measure twice, prompt once! Check dimensions against your requirements and building codes. AI is powerful but needs human oversight for accuracy.</p>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 Blueprint Verification Practice</h3>
+                <p>Practice spotting common AI errors in blueprints:</p>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showBlueprintError('dimensions')">Dimension Errors</button>
+                    <button class="demo-button" onclick="showBlueprintError('accessibility')">ADA Compliance</button>
+                    <button class="demo-button" onclick="showBlueprintError('proportions')">Room Proportions</button>
+                    <button class="demo-button" onclick="showBlueprintError('flow')">Traffic Flow</button>
+                </div>
+                <div id="blueprintError" style="margin: 15px 0; padding: 15px; background: rgba(231, 76, 60, 0.2); border-radius: 8px; display: none;">
+                    <p id="errorText"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3D Mockups & Video Section -->
+        <div id="3d-mockups" class="lesson-section">
+            <h2 class="section-title">🏠 3D Mockups & Video Creation</h2>
+            
+            <div class="workflow-step" data-step="Step 1">
+                <h3>🖼️ AI Image Generation</h3>
+                <p>Transform your blueprint into photorealistic renderings:</p>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h4>🏠 Exterior Front View</h4>
+                        <div class="mock-image">Photorealistic house exterior with ramp</div>
+                        <p>AI prompt: "Single-story ranch home, 1500 sq ft, vinyl siding, traditional style, accessibility ramp, professional photography"</p>
+                    </div>
+                    <div class="content-card">
+                        <h4>🛏️ Interior Bedroom</h4>
+                        <div class="mock-image">Modern bedroom interior, 13×15 feet</div>
+                        <p>AI prompt: "Modern bedroom interior, 13×15 feet, neutral colors, natural lighting, clean design"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="Step 2">
+                <h3>🎥 RunwayML Video Creation</h3>
+                <p>Create engaging walkthroughs for clients:</p>
+                <div class="ai-tool-card">
+                    <h4>Video Workflow</h4>
+                    <ol>
+                        <li><strong>Source Image:</strong> Use your AI-generated interior</li>
+                        <li><strong>Camera Movement:</strong> "Slow pan left to right, revealing kitchen"</li>
+                        <li><strong>Duration:</strong> 15-second clips work best</li>
+                        <li><strong>Export:</strong> Generate QR code for easy sharing</li>
+                    </ol>
+                    <div class="mock-image">15-second interior walkthrough video</div>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="Step 3">
+                <h3>🎮 Interactive 3D Experience</h3>
+                <p>Create immersive virtual tours:</p>
+                <div class="interactive-demo">
+                    <h3>Virtual 3D Walkthrough</h3>
+                    <div class="mock-image">Interactive 3D floor plan with WASD controls</div>
+                    <div class="demo-controls">
+                        <span style="font-size: 0.9em; color: #b8c6db;">
+                            Controls: WASD / Arrow Keys: Move | Mouse: Look around | R: Reset position
+                        </span>
+                    </div>
+                    <p>AI tools like ChatGPT + Claude can generate 3D environments in minutes, creating both narrative descriptions and spatial layouts for virtual walkthroughs.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="Step 4">
+                <h3>🌐 Property Website Creation</h3>
+                <p>Build a complete marketing presence:</p>
+                <div class="mock-image" style="background: linear-gradient(135deg, #2d5a0d, #4a7c59); color: white;">
+                    <div style="padding: 20px;">
+                        <h3>🏡 Premier Home Builders</h3>
+                        <h4>Crafting Dream Homes</h4>
+                        <p>Expert custom home construction with 25+ years of excellence</p>
+                        <button style="background: rgba(255,255,255,0.9); color: #333; border: none; padding: 10px 20px; border-radius: 5px; margin: 5px;">Take 3D Virtual Tour</button>
+                        <button style="background: rgba(255,255,255,0.9); color: #333; border: none; padding: 10px 20px; border-radius: 5px; margin: 5px;">Get Free Quote</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>⚡ Rapid Multi-Modal Creation</h3>
+                <p><strong>ChatGPT + Claude Partnership:</strong> Together they produced blueprint text, photorealistic images, and 3D floor-plan environments in minutes. This demonstrates how paired LLMs can handle both narrative and spatial tasks efficiently.</p>
+            </div>
+
+            <div class="ai-highlight highlight-box">
+                <h3>🎯 Professional Impact</h3>
+                <p>This complete workflow - from math to marketing materials - can be completed in under an hour. Traditional methods might take days or weeks, making AI a game-changer for construction professionals.</p>
+            </div>
+        </div>
+
+        <!-- Assessment Section -->
+        <div id="assessment" class="lesson-section">
+            <h2 class="section-title">✅ Exit Ticket & Reflection</h2>
+            
+            <div class="highlight-box">
+                <h3>🎓 Course Recap</h3>
+                <p>You've completed the full AI-assisted design workflow:</p>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>✅ <strong>Math → Blueprint → Assets chain:</strong> Used trade calculations to drive design decisions</li>
+                    <li>✅ <strong>Hallucination Detection:</strong> Caught and corrected AI errors using verification techniques</li>
+                    <li>✅ <strong>Multi-Modal Creation:</strong> Generated blueprints, images, videos, and websites</li>
+                    <li>✅ <strong>Professional Tools:</strong> Experienced industry-standard AI applications</li>
+                    <li>✅ <strong>Quality Control:</strong> Applied the "Rule of Two Checks" methodology</li>
+                </ul>
+            </div>
+
+            <div class="exit-ticket">
+                <h3>📝 Exit Ticket</h3>
+                <p>Please complete these reflection questions:</p>
+                
+                <div style="margin: 20px 0;">
+                    <label for="mathStep" style="font-weight: bold; color: #b8860b;">1. One math step AI clarified for me:</label>
+                    <textarea id="mathStep" class="exit-input" placeholder="Describe a mathematical concept or calculation step that AI helped you understand better..."></textarea>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <label for="videoTweak" style="font-weight: bold; color: #b8860b;">2. One tweak I'd add before generating AI video:</label>
+                    <textarea id="videoTweak" class="exit-input" placeholder="What would you change or improve in the video generation process?"></textarea>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <label for="biggestInsight" style="font-weight: bold; color: #b8860b;">3. My biggest insight about AI in construction:</label>
+                    <textarea id="biggestInsight" class="exit-input" placeholder="What surprised you most about using AI for construction and design work?"></textarea>
+                </div>
+
+                <button class="demo-button" onclick="submitExitTicket()" style="font-size: 1.1em; padding: 15px 25px;">
+                    🎯 Submit Reflection
+                </button>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>🔑 Key Takeaways</h3>
+                    <ul>
+                        <li><strong>Verification First:</strong> Always cross-check AI output</li>
+                        <li><strong>Workflow Integration:</strong> AI enhances but doesn't replace expertise</li>
+                        <li><strong>Speed Advantage:</strong> Complete projects in hours, not days</li>
+                        <li><strong>Quality Control:</strong> Human oversight remains essential</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>🚀 Next Steps</h3>
+                    <ul>
+                        <li>Practice the math-to-blueprint workflow</li>
+                        <li>Experiment with different AI tools</li>
+                        <li>Build a portfolio of AI-assisted projects</li>
+                        <li>Stay updated on construction AI developments</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>🛠️ Tools to Explore</h3>
+                    <ul>
+                        <li><strong>ChatGPT:</strong> Problem-solving and explanations</li>
+                        <li><strong>Claude:</strong> Detailed planning and documentation</li>
+                        <li><strong>RunwayML:</strong> Video creation and visualization</li>
+                        <li><strong>DALL-E/Midjourney:</strong> Architectural rendering</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>⚠️ Safety Reminders</h3>
+                    <ul>
+                        <li>Never implement AI designs without verification</li>
+                        <li>Check all calculations against building codes</li>
+                        <li>Consult professionals for structural elements</li>
+                        <li>Maintain documentation of design decisions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ai-highlight highlight-box">
+                <h3>🌟 Congratulations!</h3>
+                <p>You've successfully completed the AI for Trade Math + 3D Design course. You now have hands-on experience with the cutting-edge tools that are transforming the construction industry. Keep practicing and stay curious!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 'overview';
+        let completedSections = new Set(['overview']);
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.lesson-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update progress bar
+            const sections = ['overview', 'refresher', 'math-quiz', 'blueprint', '3d-mockups', 'assessment'];
+            completedSections.add(sectionId);
+            const progress = (completedSections.size / sections.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            currentSection = sectionId;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToolRecommendation(scenario) {
+            const recommendations = {
+                'math-explanation': {
+                    tool: 'ChatGPT',
+                    reason: 'Best for step-by-step math explanations, quick calculations, and learning new problem-solving techniques.'
+                },
+                'project-planning': {
+                    tool: 'Claude',
+                    reason: 'Excels at converting specifications into detailed task lists and comprehensive project plans with safety considerations.'
+                },
+                'cost-analysis': {
+                    tool: 'Gemini (Workspace Labs)',
+                    reason: 'Perfect for building complex spreadsheets, formulas, and cost analysis dashboards in Google Sheets.'
+                },
+                'client-video': {
+                    tool: 'RunwayML',
+                    reason: 'Specialized in creating professional architectural fly-throughs and client presentation videos.'
+                }
+            };
+            
+            const rec = recommendations[scenario];
+            document.getElementById('recommendationText').innerHTML = 
+                `<strong>Recommended: ${rec.tool}</strong><br>${rec.reason}`;
+            document.getElementById('toolRecommendation').style.display = 'block';
+        }
+
+        function checkAnswer(questionNum, correctAnswers) {
+            const input = document.getElementById(`q${questionNum}`);
+            const result = document.getElementById(`result${questionNum}`);
+            const userAnswer = input.value.trim().toLowerCase();
+            
+            let isCorrect = false;
+            
+            if (questionNum === 5) {
+                // For area allocation, check if they provided some allocation
+                isCorrect = userAnswer.length > 20; // Basic check for substantial answer
+            } else if (Array.isArray(correctAnswers)) {
+                isCorrect = correctAnswers.some(answer => 
+                    userAnswer.includes(answer.toLowerCase()) || userAnswer === answer.toLowerCase()
+                );
+            } else {
+                isCorrect = userAnswer === correctAnswers.toLowerCase() || userAnswer.includes(correctAnswers.toLowerCase());
+            }
+            
+            result.style.display = 'block';
+            
+            if (isCorrect) {
+                result.className = 'answer-result correct';
+                result.innerHTML = '✅ Correct! AI confirms your calculation is accurate.';
+            } else {
+                result.className = 'answer-result incorrect';
+                const explanations = {
+                    1: '❌ Not quite. AI shows: 7⅜ = 7 + (3÷8) = 7 + 0.375 = 7.375 inches',
+                    2: '❌ Check again. AI calculates: 1:12 slope means 12 inches run per 1 inch rise. So 28×12 = 336 inches = 28 feet',
+                    3: '❌ Let AI help: Wall area = 32×24 = 768 sq ft. Sheet area = 4×8 = 32 sq ft. So 768÷32 = 24 sheets',
+                    4: '❌ AI verification: 32 ft ÷ 6 windows = 5.333 ft spacing. Convert: 5.333 × 12 = 64 inches center-to-center',
+                    5: '❌ Try providing specific square footage for each room (bedrooms, baths, and remaining spaces)'
+                };
+                result.innerHTML = explanations[questionNum];
+            }
+        }
+
+        function showBlueprintError(errorType) {
+            const errors = {
+                'dimensions': 'Common Error: Wall dimensions don\'t add up to specified total. Always verify that room widths and lengths match the overall building dimensions.',
+                'accessibility': 'ADA Compliance Issue: Ramp slope exceeds 1:12 ratio, hallways too narrow (minimum 36"), or doorways insufficient width (minimum 32").',
+                'proportions': 'Room Proportion Problem: Bathrooms larger than bedrooms, or kitchen too small for specified appliances and workflow.',
+                'flow': 'Traffic Flow Issue: No direct path between key areas, bedrooms only accessible through other bedrooms, or bathroom locations impractical.'
+            };
+            
+            document.getElementById('errorText').textContent = errors[errorType];
+            document.getElementById('blueprintError').style.display = 'block';
+        }
+
+        function submitExitTicket() {
+            const mathStep = document.getElementById('mathStep').value;
+            const videoTweak = document.getElementById('videoTweak').value;
+            const biggestInsight = document.getElementById('biggestInsight').value;
+            
+            if (mathStep.trim() && videoTweak.trim() && biggestInsight.trim()) {
+                alert(`🎉 Thank you for your thoughtful reflection!\n\nYour insights help us improve this course. You've successfully completed the AI for Trade Math + 3D Design lesson!\n\nKey points captured:\n• Math insight: ${mathStep.substring(0, 50)}...\n• Video improvement: ${videoTweak.substring(0, 50)}...\n• Biggest insight: ${biggestInsight.substring(0, 50)}...`);
+                
+                // Mark as completed
+                completedSections.add('assessment');
+                document.getElementById('progressFill').style.width = '100%';
+            } else {
+                alert('Please complete all three reflection questions before submitting.');
+            }
+        }
+
+        // Initialize progress tracking
+        window.addEventListener('load', function() {
+            // Set initial progress
+            document.getElementById('progressFill').style.width = '16%';
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const sections = ['overview', 'refresher', 'math-quiz', 'blueprint', '3d-mockups', 'assessment'];
+            const currentIndex = sections.indexOf(currentSection);
+            
+            if (e.key === 'ArrowRight' && currentIndex < sections.length - 1) {
+                const nextSection = sections[currentIndex + 1];
+                const nextButton = document.querySelector(`[onclick="showSection('${nextSection}')"]`);
+                nextButton.click();
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                const prevSection = sections[currentIndex - 1];
+                const prevButton = document.querySelector(`[onclick="showSection('${prevSection}')"]`);
+                prevButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
