@@ -1,5 +1,5 @@
 # AI for Trade Math + 3D Design
-### Self-Paced Interactive Learning Platform
+### Interactive Learning Platform
 
 A comprehensive educational module that teaches construction professionals how to leverage AI tools for trade mathematics, blueprint design, and 3D visualization workflows.
 
